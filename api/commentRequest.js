@@ -16,7 +16,7 @@ export const updateComment = (postId, commentId, commentContent) => {
     const result = requestJson(
         `${getServerUrl()}/posts/${postId}/comments/${commentId}`,
         {
-            method: 'PATCH',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },

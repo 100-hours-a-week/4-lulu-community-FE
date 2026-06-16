@@ -12,8 +12,8 @@ export const getServerUrl = () => {
 
     const host = window.location.hostname;
     return host.includes('localhost')
-        ? 'http://localhost:8081'
-        : `http://${host}:8081`;
+        ? 'http://localhost:8080/api'
+        : `http://${host}:8080/api`;
 };
 
 export const resolveImageUrl = (url, fallback = null) => {
@@ -23,7 +23,7 @@ export const resolveImageUrl = (url, fallback = null) => {
 };
 
 export const serverSessionCheck = async () => {
-    const res = await fetch(`${getServerUrl()}/v1/auth/check`, {
+    const res = await fetch(`${getServerUrl()}/auth/check`, {
         method: 'GET',
         credentials: 'include',
     });
