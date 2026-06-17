@@ -3,7 +3,7 @@ import { requestJson } from '../utils/request.js';
 
 export const getPosts = (offset, limit) => {
     const result = requestJson(
-        `${getServerUrl()}/posts?offset=${offset}&limit=${limit}`,
+        `${getServerUrl()}/api/posts?offset=${offset}&limit=${limit}`,
         {
             credentials: 'include',
         },
@@ -19,7 +19,7 @@ export const searchPosts = (keyword, offset = 0, limit = 5, sort = 'recent') => 
         sort,
     });
     const result = requestJson(
-        `${getServerUrl()}/posts/search?${query.toString()}`,
+        `${getServerUrl()}/api/posts/search?${query.toString()}`,
         {
             credentials: 'include',
         },
