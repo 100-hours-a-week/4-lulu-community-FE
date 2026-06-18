@@ -26,11 +26,16 @@ export const serverSessionCheck = async () => {
     const res = await fetch(`${getServerUrl()}/api/auth/check`, {
         method: 'GET',
         credentials: 'include',
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
+        headers: getAuthHeader()
     });
     return res;
+};
+
+//헤더에 Access 토큰 넣기
+export const getAuthHeader = () => {
+    const token = localStorage.getItem('accessToken');
+    // 토큰이 있으면 Authorization 헤더를 만들어주고, 없으면 빈 객체를 돌려줌
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
 export const authCheck = async () => {

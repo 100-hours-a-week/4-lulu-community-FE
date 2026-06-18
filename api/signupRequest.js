@@ -1,4 +1,4 @@
-import { getServerUrl } from '../utils/function.js';
+import { getAuthHeader, getServerUrl } from '../utils/function.js';
 import { requestJson } from '../utils/request.js';
 
 export const userSignup = async data => {
@@ -43,9 +43,7 @@ export const fileUpload = async file => {
         `${getServerUrl()}/api/users/upload/profile-image`,
         {
             method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
+            headers: getAuthHeader(),
             body: file,
         },
     );

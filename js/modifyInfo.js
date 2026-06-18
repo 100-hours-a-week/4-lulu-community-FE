@@ -132,9 +132,7 @@ const changeEventHandler = async (event, uid) => {
                     `${getServerUrl()}/api/users/upload/profile-image`,
                     {
                         method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        },
+                        headers: getAuthHeader(),
                         body: formData,
                     },
                 );

@@ -6,7 +6,7 @@ export const changePassword = async password => {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            ...getAuthHeader()
         },
         credentials: 'include',
         body: JSON.stringify({

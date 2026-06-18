@@ -1,4 +1,4 @@
-import { getServerUrl } from '../utils/function.js';
+import { getAuthHeader, getServerUrl } from '../utils/function.js';
 import { requestJson } from '../utils/request.js';
 
 export const createPost = boardData => {
@@ -7,7 +7,7 @@ export const createPost = boardData => {
         body: JSON.stringify(boardData),
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            ...getAuthHeader()
         },
         credentials: 'include',
     });
@@ -20,7 +20,7 @@ export const updatePost = (postId, boardData) => {
         body: JSON.stringify(boardData),
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            ...getAuthHeader()
         },
         credentials: 'include',
     });
@@ -32,9 +32,7 @@ export const fileUpload = formData => {
     const result = requestJson(getServerUrl() + '/api/posts/upload/attach-file', {
         method: 'POST',
         body: formData,
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
+        headers: getAuthHeader()
     });
 
     return result;
