@@ -4,6 +4,7 @@ import {
     authCheck,
     getQueryString,
     getServerUrl,
+    getAuthHeader,
     prependChild,
     resolveImageUrl,
 } from '../utils/function.js';

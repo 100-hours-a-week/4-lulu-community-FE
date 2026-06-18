@@ -1,4 +1,4 @@
-import { getServerUrl } from '../utils/function.js';
+import { getServerUrl, getAuthHeader } from '../utils/function.js';
 import { requestJson } from '../utils/request.js';
 
 export const userModify = async changeData => {

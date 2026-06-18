@@ -4,6 +4,7 @@ import Header from '../component/header/header.js';
 import {
     authCheck,
     getServerUrl,
+    getAuthHeader,
     prependChild,
     padTo2Digits,
     resolveImageUrl,

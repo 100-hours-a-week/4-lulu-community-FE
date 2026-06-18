@@ -5,6 +5,7 @@ import {
     authCheck,
     prependChild,
     getServerUrl,
+    getAuthHeader,
     resolveImageUrl,
     validNickname,
 } from '../utils/function.js';
