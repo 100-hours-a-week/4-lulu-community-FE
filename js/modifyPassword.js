@@ -100,7 +100,7 @@ const modifyPassword = async () => {
 
     if (status == HTTP_CREATED) {
         try {
-            await fetch(`${getServerUrl()}/v1/auth/logout`, {
+            await fetch(`${getServerUrl()}/api/auth/logout`, {
                 method: 'POST',
                 credentials: 'include',
             });
