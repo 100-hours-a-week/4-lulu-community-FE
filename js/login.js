@@ -22,7 +22,7 @@ const loginClick = async () => {
     const { id: email, password } = loginData;
     const helperTextElement = document.querySelector('.helperText');
 
-    const { ok, status, code } = await userLogin(email, password);
+    const { ok, status, code, data } = await userLogin(email, password);
     if (!ok) {
         updateHelperText(
             helperTextElement,
@@ -41,6 +41,11 @@ const loginClick = async () => {
         return;
     }
     updateHelperText(helperTextElement);
+
+    // 토큰을 브라우저 로컬 스토리지에 저장
+    if (data && data.accessToken) {
+        localStorage.setItem('accessToken', data.accessToken);
+    }
 
     location.href = '/html/index.html';
 };

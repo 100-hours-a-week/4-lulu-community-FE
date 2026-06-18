@@ -18,8 +18,12 @@ const headerDropdownMenu = () => {
             await fetch(`${getServerUrl()}/api/auth/logout`, {
                 method: 'POST',
                 credentials: 'include',
+                headers: {
+                    'Authorization': `Bearer ${token}` 
+                }
             });
         } finally {
+            localStorage.removeItem('accessToken');
             location.href = '/html/login.html';
         }
     });

@@ -43,6 +43,9 @@ export const fileUpload = async file => {
         `${getServerUrl()}/api/users/upload/profile-image`,
         {
             method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             body: file,
         },
     );

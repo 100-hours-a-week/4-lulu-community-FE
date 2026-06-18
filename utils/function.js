@@ -26,6 +26,9 @@ export const serverSessionCheck = async () => {
     const res = await fetch(`${getServerUrl()}/api/auth/check`, {
         method: 'GET',
         credentials: 'include',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
     });
     return res;
 };

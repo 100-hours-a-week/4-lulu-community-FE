@@ -7,6 +7,7 @@ export const createPost = boardData => {
         body: JSON.stringify(boardData),
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         credentials: 'include',
     });
@@ -19,6 +20,7 @@ export const updatePost = (postId, boardData) => {
         body: JSON.stringify(boardData),
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         credentials: 'include',
     });
@@ -30,6 +32,9 @@ export const fileUpload = formData => {
     const result = requestJson(getServerUrl() + '/api/posts/upload/attach-file', {
         method: 'POST',
         body: formData,
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
     });
 
     return result;

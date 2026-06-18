@@ -21,6 +21,7 @@ export const writeComment = async (pageId, comment) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         credentials: 'include',
         body: JSON.stringify({ commentContent: comment }),
@@ -39,6 +40,9 @@ export const likePost = async postId => {
     const result = await requestJson(`${getServerUrl()}/api/posts/${postId}/likes`, {
         method: 'POST',
         credentials: 'include',
+        headers: {
+            'Authorization': `Bearer ${token}` 
+        }
     });
     return result;
 };
@@ -47,6 +51,9 @@ export const unlikePost = async postId => {
     const result = await requestJson(`${getServerUrl()}/api/posts/${postId}/likes`, {
         method: 'DELETE',
         credentials: 'include',
+        headers: {
+            'Authorization': `Bearer ${token}` 
+        }
     });
     return result;
 };

@@ -6,6 +6,7 @@ export const userModify = async changeData => {
         method: '',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         credentials: 'include',
         body: JSON.stringify(changeData),
@@ -18,6 +19,7 @@ export const userDelete = async () => {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         credentials: 'include',
     });
