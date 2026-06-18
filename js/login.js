@@ -43,8 +43,8 @@ const loginClick = async () => {
     updateHelperText(helperTextElement);
 
     // 토큰을 브라우저 로컬 스토리지에 저장
-    if (data && data.accessToken) {
-        localStorage.setItem('accessToken', data.accessToken);
+    if (data && data.token && data.token.accessToken) {
+        localStorage.setItem('accessToken', data.token.accessToken);
     }
 
     location.href = '/html/index.html';
