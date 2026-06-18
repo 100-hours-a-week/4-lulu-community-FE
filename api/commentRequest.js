@@ -7,6 +7,7 @@ export const deleteComment = (postId, commentId) => {
         {
             method: 'DELETE',
             credentials: 'include',
+            headers: getAuthHeader()
         },
     );
     return result;
@@ -19,6 +20,7 @@ export const updateComment = (postId, commentId, commentContent) => {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                ...getAuthHeader()
             },
             credentials: 'include',
             body: JSON.stringify(commentContent),

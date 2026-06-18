@@ -6,6 +6,7 @@ export const getPosts = (offset, limit) => {
         `${getServerUrl()}/api/posts?offset=${offset}&limit=${limit}`,
         {
             credentials: 'include',
+            headers: getAuthHeader()
         },
     );
     return result;
@@ -22,6 +23,7 @@ export const searchPosts = (keyword, offset = 0, limit = 5, sort = 'recent') => 
         `${getServerUrl()}/api/posts/search?${query.toString()}`,
         {
             credentials: 'include',
+            headers: getAuthHeader()
         },
     );
     return result;

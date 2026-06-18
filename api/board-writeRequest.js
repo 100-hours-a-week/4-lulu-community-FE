@@ -42,6 +42,7 @@ export const getBoardItem = postId => {
     const result = requestJson(getServerUrl() + `/api/posts/${postId}`, {
         method: 'GET',
         credentials: 'include',
+        headers: getAuthHeader()
     });
 
     return result;

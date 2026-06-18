@@ -4,6 +4,7 @@ import { requestJson } from '../utils/request.js';
 export const getPost = postId => {
     const result = requestJson(`${getServerUrl()}/api/posts/${postId}`, {
         credentials: 'include',
+        headers: getAuthHeader()
     });
     return result;
 };
@@ -12,6 +13,7 @@ export const deletePost = async postId => {
     const result = await requestJson(`${getServerUrl()}/api/posts/${postId}`, {
         method: 'DELETE',
         credentials: 'include',
+        headers: getAuthHeader()
     });
     return result;
 };
@@ -32,6 +34,7 @@ export const writeComment = async (pageId, comment) => {
 export const getComments = async postId => {
     const result = await requestJson(`${getServerUrl()}/api/posts/${postId}/comments`, {
         credentials: 'include',
+        headers: getAuthHeader()
     });
     return result;
 };
