@@ -3,6 +3,7 @@ import { requestJson } from '../utils/request.js';
 
 export const getPost = postId => {
     const result = requestJson(`${getServerUrl()}/api/posts/${postId}`, {
+        method: 'GET',
         credentials: 'include',
         headers: getAuthHeader()
     });
