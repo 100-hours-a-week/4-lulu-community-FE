@@ -146,7 +146,7 @@ const setBoardDetail = data => {
 };
 
 const setBoardModify = async (data, myInfo) => {
-    if (myInfo.idx === data.writerId) {
+    if (myInfo.userId === data.authorId) {
         const modifyElement = document.querySelector('.hidden');
         modifyElement.classList.remove('hidden');
 
@@ -261,7 +261,7 @@ const init = async () => {
 
         const pageData = await getBoardDetail(pageId);
 
-        if (parseInt(pageData.userId, 10) === parseInt(myInfo.userId, 10)) {
+        if (parseInt(pageData.authorId, 10) === parseInt(myInfo.userId, 10)) {
             setBoardModify(pageData, myInfo);
         }
         setBoardDetail(pageData);

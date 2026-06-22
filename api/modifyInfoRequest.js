@@ -3,7 +3,7 @@ import { requestJson } from '../utils/request.js';
 
 export const userModify = async changeData => {
     const result = await requestJson(`${getServerUrl()}/api/users/me`, {
-        method: '',
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             ...getAuthHeader()
