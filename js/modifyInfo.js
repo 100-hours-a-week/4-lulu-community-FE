@@ -167,7 +167,7 @@ const sendModifyData = async () => {
         } else {
             const { status } = await userModify(changeData);
 
-            if (status === HTTP_CREATED) {
+            if (status === HTTP_OK) {
                 localStorage.removeItem('profileImageUrl');
                 saveToastMessage('수정완료');
                 location.href = '/html/modifyInfo.html';

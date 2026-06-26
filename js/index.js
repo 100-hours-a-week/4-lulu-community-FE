@@ -150,11 +150,13 @@ const addInfinityScrollEvent = () => {
 const init = async () => {
     try {
         const response = await authCheck();
-        const data = await response.json();
-        if (response.status === HTTP_NOT_AUTHORIZED) {
+
+        if (!response || !response.ok || response.status === HTTP_NOT_AUTHORIZED) {
             window.location.href = '/html/login.html';
             return;
         }
+
+        const data = await response.json();
 
         const profileImageUrl = resolveImageUrl(
             data.data.profileImageUrl,

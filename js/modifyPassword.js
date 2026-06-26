@@ -13,6 +13,7 @@ import {
 const button = document.querySelector('#signupBtn');
 
 const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
+const HTTP_OK = 200;
 const HTTP_CREATED = 201;
 
 const dataResponse = await authCheck();
@@ -99,7 +100,7 @@ const modifyPassword = async () => {
 
     const { status } = await changePassword(password);
 
-    if (status == HTTP_CREATED) {
+    if (status == HTTP_OK) {
         try {
             await fetch(`${getServerUrl()}/api/auth/logout`, {
                 method: 'POST',
