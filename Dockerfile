@@ -1,4 +1,4 @@
-FROM node:22
+FROM node:22-alpine
 
 WORKDIR /app
 
@@ -9,6 +9,6 @@ RUN npm ci --omit=dev
 
 COPY . .
 
-EXPOSE 8082
+EXPOSE 3000
 
 CMD ["node", "app.js"]

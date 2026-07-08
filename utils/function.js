@@ -13,7 +13,7 @@ export const getServerUrl = () => {
     const host = window.location.hostname;
     return host.includes('localhost')
         ? 'http://localhost:8080'
-        : `http://${host}`;
+        : `https://${host}`;
 };
 
 export const resolveImageUrl = (url, fallback = null) => {
