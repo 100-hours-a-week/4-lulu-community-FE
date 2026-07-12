@@ -1,0 +1,50 @@
+name: Frontend CI/CD
+
+on:
+  push:
+    branches: [ "main" ] 
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      # CI: Node.js 세팅이나 npm install 없이 바로 도커 빌드를 수행
+      # Dockerfile 안에서 npm ci 가 실행됨
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: lulu-frontend
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      # CD: 배스천을 경유하여 프라이빗 프론트엔드 EC2들에 동시 배포
+      - name: Deploy to Multiple Private EC2s via Bastion
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.FE_PRIVATE_IPS }} # 프론트엔드 1번, 2번 IP (콤마로 구분)
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          proxy_host: ${{ secrets.BASTION_IP }}
+          proxy_username: ubuntu
+          proxy_key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
+            cd ~/frontend
+            docker compose pull
+            docker compose up -d
