@@ -2,10 +2,10 @@ name: Frontend CI/CD
 
 on:
   push:
-    branches: [ "main" ] 
+    branches: [ "main" ]
 
 jobs:
-  build-and-deploy:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Code
@@ -22,29 +22,36 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      # CI: Node.js 세팅이나 npm install 없이 바로 도커 빌드를 수행
-      # Dockerfile 안에서 npm ci 가 실행됨
       - name: Build, tag, and push image to Amazon ECR
+        id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: lulu-frontend
-          IMAGE_TAG: latest
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image_tag=$IMAGE_TAG" >> "$GITHUB_OUTPUT"
 
-      # CD: 배스천을 경유하여 프라이빗 프론트엔드 EC2들에 동시 배포
-      - name: Deploy to Multiple Private EC2s via Bastion
-        uses: appleboy/ssh-action@master
+      - name: Checkout GitOps repo
+        uses: actions/checkout@v3
         with:
-          host: ${{ secrets.FE_PRIVATE_IPS }} # 프론트엔드 1번, 2번 IP (콤마로 구분)
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          proxy_host: ${{ secrets.BASTION_IP }}
-          proxy_username: ubuntu
-          proxy_key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
-            cd ~/frontend
-            docker compose pull
-            docker compose up -d
+          repository: nominsol/Community-GitOps
+          token: ${{ secrets.GITOPS_PAT }}
+          path: gitops
+
+      - name: Update image tag in values.yaml
+        run: |
+          cd gitops
+          sed -i "s/^  tag:.*/  tag: \"${{ steps.build-image.outputs.image_tag }}\"/" charts/frontend-app/values.yaml
+          echo "----- 변경된 values.yaml -----"
+          cat charts/frontend-app/values.yaml
+
+      - name: Commit and push
+        run: |
+          cd gitops
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add charts/frontend-app/values.yaml
+          git commit -m "frontend: update image tag to ${{ steps.build-image.outputs.image_tag }}"
+          git push
