@@ -16,7 +16,7 @@ import {
     getComments,
     likePost,
     unlikePost,
-} from '../api/boardRequest.js';
+} from '../apis/boardRequest.js';
 
 const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
 const MAX_COMMENT_LENGTH = 1000;
