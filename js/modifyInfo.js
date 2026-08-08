@@ -1,4 +1,4 @@
-import { checkNickname } from '../api/signupRequest.js';
+import { checkNickname } from '../apis/signupRequest.js';
 import Dialog from '../component/dialog/dialog.js';
 import Header from '../component/header/header.js';
 import {
@@ -9,7 +9,7 @@ import {
     resolveImageUrl,
     validNickname,
 } from '../utils/function.js';
-import { userModify, userDelete } from '../api/modifyInfoRequest.js';
+import { userModify, userDelete } from '../apis/modifyInfoRequest.js';
 import { requestJson } from '../utils/request.js';
 
 const emailTextElement = document.querySelector('#id');

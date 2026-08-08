@@ -4,7 +4,7 @@ import {
     prependChild,
     validEmail,
 } from '../utils/function.js';
-import { userLogin } from '../api/loginRequest.js';
+import { userLogin } from '../apis/loginRequest.js';
 
 const HTTP_OK = 200;
 const MAX_PASSWORD_LENGTH = 8;
