@@ -69,12 +69,12 @@ const setBoardDetail = data => {
 
     // 바디 정보
     const contentImgElement = document.querySelector('.contentImg');
-    const fileUrl = data.fileUrl || resolveImageUrl(data.filePath);
-    if (fileUrl) {
-        console.log(fileUrl);
-        const img = document.createElement('img');
-        img.src = fileUrl;
-        contentImgElement.appendChild(img);
+    if (data.imageUrls && data.imageUrls.length > 0) {
+        data.imageUrls.forEach(url => {
+            const img = document.createElement('img');
+            img.src = url;
+            contentImgElement.appendChild(img);
+        });
     }
     const contentElement = document.querySelector('.content');
     contentElement.textContent = data.content;

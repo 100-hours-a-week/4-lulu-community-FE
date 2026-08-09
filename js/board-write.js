@@ -56,7 +56,7 @@ const getBoardData = () => {
     return {
         title: boardWrite.title,
         content: boardWrite.content,
-        attachFileUrl:
+        image:                                    
             localStorage.getItem('postFileUrl') === null
                 ? undefined
                 : localStorage.getItem('postFileUrl'),
@@ -193,30 +193,22 @@ const setModifyData = data => {
     titleInput.value = data.title;
     contentInput.value = data.content;
 
-    const fileUrl = data.fileUrl || resolveImageUrl(data.filePath);
+    const fileUrl = data.imageUrls && data.imageUrls.length > 0
+        ? data.imageUrls[0]
+        : null;
+
     if (fileUrl) {
-        // fileUrl에서 파일 이름만 추출하여 표시
         const fileName = fileUrl.split('/').pop();
         imagePreviewText.innerHTML =
             fileName + `<span class="deleteFile">X</span>`;
         imagePreviewText.style.display = 'block';
         localStorage.setItem('postFileUrl', fileUrl);
 
-        // 이제 추출된 파일명을 사용하여 File 객체를 생성
-        const attachFile = new File(
-            // 실제 이미지 데이터 대신 URL을 사용
-            [fileUrl],
-            // 추출된 파일명
-            fileName,
-            // MIME 타입 지정, 실제 이미지 타입에 맞게 조정 필요
-            { type: '' },
-        );
-
+        const attachFile = new File([fileUrl], fileName, { type: '' });
         const dataTransfer = new DataTransfer();
         dataTransfer.items.add(attachFile);
         imageInput.files = dataTransfer.files;
     } else {
-        // 이미지 파일이 없으면 미리보기 숨김
         imagePreviewText.style.display = 'none';
     }
 
