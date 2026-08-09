@@ -127,25 +127,23 @@ const changeEventHandler = async (event, uid) => {
             const formData = new FormData();
             formData.append('profileImage', file);
 
-            // 파일 업로드를 위한 POST 요청 실행
             try {
                 const UPLOAD_ORIGIN_URL = 'https://origin.lulu-roh.xyz';
-                const { ok, data } = await fetch(`${UPLOAD_ORIGIN_URL}/api/users/upload/profile-image`, {
+                const response = await fetch(`${UPLOAD_ORIGIN_URL}/api/users/upload/profile-image`, {
                     method: 'POST',
                     body: formData,
                     headers: getAuthHeader(),
                     credentials: 'include',
                 });
-                if (!ok) throw new Error('서버 응답 오류');
-                localStorage.setItem(
-                    'profileImageUrl',
-                    data.profileImageUrl,
-                );
-                changeData.profileImageUrl = data.profileImageUrl;
-                profilePreview.src = resolveImageUrl(
-                    data.profileImageUrl,
-                    DEFAULT_PROFILE_IMAGE,
-                );
+
+                if (!response.ok) throw new Error('서버 응답 오류');
+
+                const body = await response.json();
+                const uploadedUrl = body.data.fileUrl;   // profileImageUrl → fileUrl, body.data에서 꺼냄
+
+                localStorage.setItem('profileImageUrl', uploadedUrl);
+                changeData.profileImageUrl = uploadedUrl;
+                profilePreview.src = resolveImageUrl(uploadedUrl, DEFAULT_PROFILE_IMAGE);
                 if (removeProfileButton)
                     removeProfileButton.style.display = 'flex';
             } catch (error) {
