@@ -29,7 +29,8 @@ export const updatePost = (postId, boardData) => {
 };
 
 export const fileUpload = formData => {
-    const result = requestJson(getServerUrl() + '/api/posts/upload/attach-file', {
+    const UPLOAD_ORIGIN_URL = 'https://origin.lulu-roh.xyz';
+    const result = requestJson(`${UPLOAD_ORIGIN_URL}/api/posts/upload/attach-file`, {
         method: 'POST',
         body: formData,
         headers: getAuthHeader()
