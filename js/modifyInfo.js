@@ -129,15 +129,13 @@ const changeEventHandler = async (event, uid) => {
 
             // 파일 업로드를 위한 POST 요청 실행
             try {
-                const { ok, data } = await requestJson(
-                    `${getServerUrl()}/api/users/upload/profile-image`,
-                    {
-                        method: 'POST',
-                        headers: getAuthHeader(),
-                        body: formData,
-                    },
-                );
-
+                const UPLOAD_ORIGIN_URL = 'https://origin.lulu-roh.xyz';
+                const { ok, data } = await fetch(`${UPLOAD_ORIGIN_URL}/api/users/upload/profile-image`, {
+                    method: 'POST',
+                    body: formData,
+                    headers: getAuthHeader(),
+                    credentials: 'include',
+                });
                 if (!ok) throw new Error('서버 응답 오류');
                 localStorage.setItem(
                     'profileImageUrl',
