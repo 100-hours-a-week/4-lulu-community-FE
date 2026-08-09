@@ -22,12 +22,9 @@ export const deletePost = async postId => {
 export const writeComment = async (pageId, comment) => {
     const result = await requestJson(`${getServerUrl()}/api/posts/${pageId}/comments`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            ...getAuthHeader()
-        },
+        headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
         credentials: 'include',
-        body: JSON.stringify({ commentContent: comment }),
+        body: JSON.stringify({ content: comment }),   // commentContent → content
     });
     return result;
 };

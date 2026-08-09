@@ -242,9 +242,9 @@ const init = async () => {
         isModifyMode = true;
         modifyData = await getBoardModifyData(modifyId);
 
-        if (data.userId !== modifyData.writerId) {
+        if (parseInt(data.data.userId, 10) !== parseInt(modifyData.authorId, 10)) {
             Dialog('권한 없음', '권한이 없습니다.', () => {
-                window.location.href = '/';
+            window.location.href = '/';
             });
         } else {
             setModifyData(modifyData);
